@@ -1,5 +1,6 @@
 import sqlite3
 from markupsafe import escape
+from time import time
 from flask import Flask, g, jsonify
 app = Flask(__name__)
 
@@ -48,6 +49,7 @@ def info():
     return 'Simple rating and download counter backend, see <a href="https://gitlab.com/banana-hackers/simple-ratings-server">gitlab.com/banana-hackers/simple-ratings-server</a>'
 
 
+@app.route('/download_counter/', methods=['GET'])
 @app.route('/download_counter', methods=['GET'])
 def get_download_counts():
     # get download counts for all apps
@@ -61,7 +63,7 @@ def get_download_counts():
 def increase_download_counts(appid_slug):
     # count a download of the app with appid_slug
     cur = get_db().execute('INSERT INTO downloads (appid, timestamp) VALUES (?, ?)',
-                           (escape(appid_slug), 342142))
+                           (escape(appid_slug), int(time())))
     get_db().commit()
     cur.close()
     return 'OK'
