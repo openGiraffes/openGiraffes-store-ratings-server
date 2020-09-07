@@ -65,3 +65,7 @@ def increase_download_counts(appid_slug):
     get_db().commit()
     cur.close()
     return 'OK'
+
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', port=1024, debug=True)

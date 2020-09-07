@@ -21,8 +21,21 @@ flask run
 flask run --host=0.0.0.0
 ```
 
-for deployment see https://flask.palletsprojects.com/en/1.1.x/deploying/#deployment; https://lab.uberspace.de/guide_flask.html; 
-https://gunicorn.org/?
+### Deployment 
+for deployment see:
+https://flask.palletsprojects.com/en/1.1.x/deploying/#deployment
+https://lab.uberspace.de/guide_flask.html
+https://gunicorn.org/
+
+### Deployment with UWSGI
+
+```sh
+source .venv/bin/activate
+pip install uwsgi
+# test with
+uwsgi uwsgi.ini
+```
+next setup a daemon, like described in https://lab.uberspace.de/guide_flask.html#setup-daemon
 
 ## Technology
 
