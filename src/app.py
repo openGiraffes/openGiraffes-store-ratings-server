@@ -45,7 +45,7 @@ init_db()
 
 @app.route('/')
 def info():
-    return 'Todo, add information here'
+    return 'Simple rating and download counter backend, see <a href="https://gitlab.com/banana-hackers/simple-ratings-server">gitlab.com/banana-hackers/simple-ratings-server</a>'
 
 
 @app.route('/download_counter', methods=['GET'])
@@ -68,4 +68,4 @@ def increase_download_counts(appid_slug):
 
 
 if __name__ == "__main__":
-  app.run(host='0.0.0.0', port=1024, debug=True)
+    app.run(host='0.0.0.0', port=1024, debug=True)
