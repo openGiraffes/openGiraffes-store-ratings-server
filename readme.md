@@ -21,7 +21,7 @@ flask run
 flask run --host=0.0.0.0
 ```
 
-for deployment see https://flask.palletsprojects.com/en/1.1.x/deploying/#deployment
+for deployment see https://flask.palletsprojects.com/en/1.1.x/deploying/#deployment; https://lab.uberspace.de/guide_flask.html; 
 https://gunicorn.org/?
 
 ## Technology
