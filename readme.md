@@ -6,7 +6,7 @@ instructions are for linux and mac, you'll need to change some commands to make 
 ```bash
 virtualenv .venv
 source .venv/bin/activate
-pip install Flask
+pip install Flask flask-cors
 ```
 
 ## Usage

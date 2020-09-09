@@ -2,7 +2,9 @@ import sqlite3
 from markupsafe import escape
 from time import time
 from flask import Flask, g, jsonify
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 
 DATABASE = 'database.db'
 
