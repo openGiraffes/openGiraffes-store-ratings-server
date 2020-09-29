@@ -57,7 +57,7 @@ pytest
 - cache download counts somehow?
 - pagination of ratings (if we have so many that we need it)
 
-## Notes for implementing this app in an store app
+## Notes for implementing this api in an store app
 
 ### Documentation
 
