@@ -45,3 +45,97 @@ In `data.json` this id is found under `app.slug`.
 ```text
 OK
 ```
+
+## Ratings
+
+### Create user
+
+#### Request
+
+```
+POST /createuser
+```
+
+parameters are to be provided via the request body in the `application/json` mime format.
+
+```ts
+{
+ "username":string,
+ "logintoken":string
+}
+```
+
+the login token is basically the password used for requests
+
+#### Response
+
+```ts
+{ success: true }
+// or
+{ success: false, error: "username is already taken" }
+```
+
+### Create Rating For An App
+
+#### Request
+
+```
+POST /ratings/<appid_slug>/add
+```
+
+parameters are to be provided via the request body in the `application/json` mime format.
+
+```ts
+{
+ "username": string,
+ "logintoken": string,
+ "appid": string,
+ "points": number between 1 and 5,
+ "description": string/text longer than 2 characters
+}
+```
+
+#### Response
+
+```ts
+{ success: true }
+// or an error of
+{ success: false, error: "An error occured" }
+{ success: false, error: "user not found" }
+{ success: false, error: "you already posted a review for this app" }
+{ success: false, error: "rating can only be between 1 and 5" }
+{ success: false, error: "review description is to short" }
+```
+
+### Get All Ratings For An App
+
+#### Request
+
+```
+GET /ratings/<appid_slug>
+```
+
+#### Response
+
+example response:
+
+```json
+{
+  "appid": "bhackers.store",
+  "average": 3.5,
+  "ratings": [
+    {
+      "creationtime": 1600894422,
+      "description": "very good",
+      "username": "sampleUser1",
+      "points": 4
+    },
+    {
+      "creationtime": 1600799422,
+      "description": "fine",
+      "username": "sampleUser2",
+      "points": 3
+    }
+  ]
+}
+```
