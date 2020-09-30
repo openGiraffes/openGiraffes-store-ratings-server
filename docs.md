@@ -89,7 +89,6 @@ parameters are to be provided via the request body in the `application/json` mim
 {
  "username": string,
  "logintoken": string,
- "appid": string,
  "points": number between 1 and 5,
  "description": string/text longer than 2 characters
 }
