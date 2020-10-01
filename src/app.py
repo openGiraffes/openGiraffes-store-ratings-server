@@ -58,6 +58,27 @@ def create_user():
     return dict(success=True)
 
 
+@router.route('/checkuser', methods=['POST'])
+def check_user():
+    """
+    check login credentaials
+    """
+    if not request.json \
+            or not 'username' in request.json \
+            or not 'logintoken' in request.json:
+        abort(400)
+
+    username = request.json['username']
+    logintoken = request.json['logintoken']
+
+    found_users = query_db(
+        'SELECT * FROM users WHERE name LIKE ? AND token == ?', (username, logintoken))
+    if len(found_users) != 1:
+        return dict(success=False, error="user not found"), 401
+
+    return dict(success=True)
+
+
 @router.route('/ratings/<appid_slug>', methods=['GET'])
 def get_ratings(appid_slug):
     # get all ratings for an app

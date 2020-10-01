@@ -75,6 +75,31 @@ the login token is basically the password used for requests
 { success: false, error: "username is already taken" }
 ```
 
+### Check Whether user exists
+
+#### Request
+
+```
+POST /checkuser
+```
+
+parameters are to be provided via the request body in the `application/json` mime format.
+
+```ts
+{
+ "username":string,
+ "logintoken":string
+}
+```
+
+#### Response
+
+```ts
+{ success: true }
+// or
+{ success: false, error: "user not found" }
+```
+
 ### Create Rating For An App
 
 #### Request
