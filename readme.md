@@ -7,7 +7,7 @@ instructions are for linux and mac, you'll need to change some commands to make 
 ```bash
 virtualenv .venv
 source .venv/bin/activate
-pip install Flask flask-cors pytest
+pip install -r requirements.txt
 ```
 
 ## Usage
@@ -76,9 +76,16 @@ for futher information on xss attacks see:
 - https://old.liveoverflow.com/web_security/xss.html
 - https://en.wikipedia.org/wiki/Cross-site_scripting
 
-
 ## Technology
 
 https://flask.palletsprojects.com/en/1.1.x/
 https://docs.python.org/3/library/sqlite3.html
 https://sqlitebrowser.org/
+
+## Tipp: save requirements
+
+After adding a new dependency you should update requirements.txt with this command:
+
+```sh
+pip list --not-required --format freeze > requirements.txt
+```
