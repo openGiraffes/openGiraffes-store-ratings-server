@@ -4,6 +4,7 @@ from time import time
 from flask import Blueprint, g, jsonify, request, abort
 import logging
 from src.db import query_db
+import bcrypt
 
 logger = logging.getLogger(__name__)
 router = Blueprint('routes', __name__)
@@ -44,7 +45,8 @@ def create_user():
             or not 'logintoken' in request.json:
         abort(400)
     username = request.json['username']
-    logintoken = request.json['logintoken']
+    rawlogintoken = request.json['logintoken']
+    logintoken = bcrypt.hashpw(bytes(rawlogintoken, 'utf-8'), bcrypt.gensalt())
     # CHECK: is nickname already taken?
     existing_users = query_db(
         'SELECT name FROM users WHERE name LIKE ? COLLATE NOCASE', (username, ))
@@ -72,8 +74,10 @@ def check_user():
     logintoken = request.json['logintoken']
 
     found_users = query_db(
-        'SELECT * FROM users WHERE name LIKE ? AND token == ?', (username, logintoken))
+        'SELECT * FROM users WHERE name LIKE ?', (username,))
     if len(found_users) != 1:
+        return dict(success=False, error="user not found"), 401
+    if not bcrypt.checkpw(bytes(logintoken, "utf-8"), found_users[0]["token"]):
         return dict(success=False, error="user not found"), 401
 
     return dict(success=True)
@@ -114,9 +118,11 @@ def add_rating(appid_slug):
         points = int(points)
         # CHECK has login token - to get the user
         found_users = query_db(
-            'SELECT * FROM users WHERE name LIKE ? AND token == ?', (username, logintoken))
+        'SELECT * FROM users WHERE name LIKE ?', (username,))
         if len(found_users) != 1:
             return dict(success=False, error="user not found"), 401
+        if not bcrypt.checkpw(bytes(logintoken, "utf-8"), found_users[0]["token"]):
+            return dict(success=False, error="user not found"), 401 
         user_id = found_users[0]['id']
         # CHECK is there already a rating by that person?
         found_ratings = query_db(
