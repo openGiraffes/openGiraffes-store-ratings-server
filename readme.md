@@ -4,8 +4,10 @@ instructions are for linux and mac, you'll need to change some commands to make 
 
 ## Instalation
 
+Make sure you have a python version that is >= 3.6 
+
 ```bash
-virtualenv .venv
+virtualenv --python /usr/bin/python3.6 .venv # replace the python path to your python version
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
