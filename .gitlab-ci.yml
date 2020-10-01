@@ -1,11 +1,9 @@
+image: python:3.6-stretch
 stages:
   - test
 
 test:
   stage: test
   script:
-    - apt-get update -qy
-    - apt-get install -y python python-pip
-    # - pip install --user -r requirements.txt # somehow this doesn't work
-    - pip install Flask flask-cors pytest
+    - pip install -r requirements.txt
     - pytest

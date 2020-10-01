@@ -46,3 +46,19 @@ def test_create_user_fail_incomplete_data(test_client):
     })
     assert response.status_code == 400
     assert response.get_json() == dict(success=False, error="400 Bad Request")
+
+
+def test_create_and_check_user(test_client):
+    username = 'sampleUser2'
+    response = test_client.post('/createuser', json={
+        'username': username,
+        'logintoken': '8abcdc42-22ba-4a29-aba7-bd1ebbcc4298',
+    })
+    assert response.status_code == 200
+    assert response.get_json() == dict(success=True)
+    response = test_client.post('/checkuser', json={
+        'username': username,
+        'logintoken': '8abcdc42-22ba-4a29-aba7-bd1ebbcc4298',
+    })
+    assert response.status_code == 200
+    assert response.get_json() == dict(success=True)
