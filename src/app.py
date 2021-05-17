@@ -83,6 +83,20 @@ def check_user():
     return dict(success=True)
 
 
+@router.route('/ratings', methods=['GET'])
+def get_ratings_for_all_apps():
+    # get rating overview for all apps
+    apps = query_db(
+        'SELECT appid, AVG(points) AS rating, COUNT(appId) AS rating_count ' +
+        'FROM ratings GROUP BY appid')
+
+    result = dict()
+    for app in apps:
+        result[app['appid']] = dict(
+            average_rating=app['rating'], rating_count=app['rating_count'])
+    return jsonify(result)
+
+
 @router.route('/ratings/<appid_slug>', methods=['GET'])
 def get_ratings(appid_slug):
     # get all ratings for an app

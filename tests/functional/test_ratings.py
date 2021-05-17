@@ -176,6 +176,43 @@ def test_create_multiple_ratings_and_view(test_client):
     assert ratings[0]["points"] == 3
     assert ratings[0]["description"] == "test description3"
 
+def test_create_multiple_ratings_and_view(test_client):
+    def create_user_and_rating(appid, username, points, description):
+        logintoken = '41ffada1-1eb2-47dc-8e30-189ac6eb3050'
+        createTestUser(test_client, username, logintoken)
+        response = test_client.post('/ratings/'+appid+'/add', json={
+            'username': username,
+            'logintoken': logintoken,
+            'points': points,
+            'description': description
+        })
+        assert response.status_code == 201
+        assert response.get_json() == dict(success=True)
+    # create test data
+    create_user_and_rating(
+        'app1', "multiple_ratings_user1", 4, "test description1")
+    create_user_and_rating(
+        'app1', "multiple_ratings_user2", 1, "test description2")
+    create_user_and_rating(
+        'app1', "multiple_ratings_user3", 3, "test description3")
+    create_user_and_rating(
+        'app2', "multiple_ratings_user4", 5, "test description1")
+    create_user_and_rating(
+        'app2', "multiple_ratings_user5", 5, "test description2")
+    create_user_and_rating(
+        'app3', "multiple_ratings_user6", 2, "test description3")
+    # check the list of ratings
+    response = test_client.get('/ratings')
+    assert response.status_code == 200
+    result = response.get_json()
+
+    assert result["app1"]["average_rating"] == 2.6666666666666665  # (4+1+3)/3
+    assert result["app1"]["rating_count"] == 3
+    assert result["app2"]["average_rating"] == 5  # (5+5)/2
+    assert result["app2"]["rating_count"] == 2
+    assert result["app3"]["average_rating"] == 2  # (2)/1
+    assert result["app3"]["rating_count"] == 1
+
 
 def test_create_rating_by_user_that_already_rated_the_app(test_client):
     # create user
