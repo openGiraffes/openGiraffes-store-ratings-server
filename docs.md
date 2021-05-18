@@ -99,6 +99,24 @@ parameters are to be provided via the request body in the `application/json` mim
 // or
 { success: false, error: "user not found" }
 ```
+### Get All Ratings
+
+#### Request
+
+```
+GET /ratings
+```
+
+#### Response
+
+```ts
+{
+  [appid:string]: {
+    average_rating: number
+    rating_count: number
+  }
+}
+```
 
 ### Create Rating For An App
 
