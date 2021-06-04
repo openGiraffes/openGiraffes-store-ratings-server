@@ -117,11 +117,16 @@ def add_rating(appid_slug):
     # add a rating to an app
     appid = escape(appid_slug).lower()
 
+    # if not request.json \
+    #         or not 'username' in request.json \
+    #         or not 'logintoken' in request.json \
+    #         or not 'points' in request.json \
+    #         or not 'description' in request.json:
+    #     abort(400)
+
     if not request.json \
             or not 'username' in request.json \
             or not 'logintoken' in request.json \
-            # or not 'points' in request.json \
-            # or not 'description' in request.json:
             or not 'points' in request.json:
         abort(400)
 
