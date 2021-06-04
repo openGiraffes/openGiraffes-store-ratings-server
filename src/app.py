@@ -102,7 +102,8 @@ def get_ratings(appid_slug):
     # get all ratings for an app
     appid = escape(appid_slug).lower()
     ratings = query_db(
-        'SELECT r.points, r.description, r.creationtime, u.name AS username ' +
+        # 'SELECT r.points, r.description, r.creationtime, u.name AS username ' +
+        'SELECT r.points, r.creationtime, u.name AS username ' +
         'FROM ratings r, users u ' +
         'WHERE r.appid LIKE ? AND u.id=r.userid ' +
         'ORDER BY r.id DESC', (appid,))
@@ -119,14 +120,15 @@ def add_rating(appid_slug):
     if not request.json \
             or not 'username' in request.json \
             or not 'logintoken' in request.json \
-            or not 'points' in request.json \
-            or not 'description' in request.json:
+            # or not 'points' in request.json \
+            # or not 'description' in request.json:
+            or not 'points' in request.json:
         abort(400)
 
     username = request.json['username']
     logintoken = request.json['logintoken']
     points = request.json['points']
-    description = request.json['description']
+    # description = request.json['description']
 
     try:
         points = int(points)
@@ -146,12 +148,14 @@ def add_rating(appid_slug):
         # CHECK is rating valid
         if not (points >= 1 and points <= 5):
             return dict(success=False, error="rating can only be between 1 and 5"), 400
-        # CHECK is the description filled out?
-        if len(description) < 3:
-            return dict(success=False, error="review description is to short"), 400
+        #   CHECK is the description filled out?
+        # if len(description) < 3:
+        #     return dict(success=False, error="review description is to short"), 400
 
-        cur = get_db().execute('INSERT INTO ratings (userid,appid,points,description,creationtime) VALUES (?, ?, ?, ?, ?)',
-                               (user_id, appid, points, description, int(time())))
+        # cur = get_db().execute('INSERT INTO ratings (userid,appid,points,description,creationtime) VALUES (?, ?, ?, ?, ?)',
+        #                        (user_id, appid, points, description, int(time())))
+        cur = get_db().execute('INSERT INTO ratings (userid,appid,points,creationtime) VALUES (?, ?, ?, ?)',
+                               (user_id, appid, points, int(time())))
         get_db().commit()
         cur.close()
         return dict(success=True), 201
