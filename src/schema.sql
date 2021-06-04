@@ -15,6 +15,6 @@ CREATE TABLE IF NOT EXISTS "ratings" (
 	"userid" TEXT,
 	"appid"	TEXT,
 	"points" INTEGER,
-	"description" TEXT,
+	-- "description" TEXT,
 	"creationtime"	INTEGER
 );
