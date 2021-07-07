@@ -12,7 +12,7 @@ router = Blueprint('routes', __name__)
 
 @router.route('/')
 def info():
-    return 'Simple rating and download counter backend, see <a href="https://github.com/openkaios/openkaios-store-ratings-server">https://github.com/openkaios/openkaios-store-ratings-server</a>'
+    return 'Simple rating and download counter backend, see <a href="https://github.com/openGiraffes/openGiraffes-store-ratings-server">https://github.com/openGiraffes/openGiraffes-store-ratings-server</a>'
 
 
 @router.route('/download_counter/', methods=['GET'])
